@@ -83,13 +83,27 @@ class Bird:
         if not (sum_mv[0] == 0 and sum_mv[1] == 0):
             self.img = self.imgs[tuple(sum_mv)]
         screen.blit(self.img, self.rct)
+
+class Score:
+    def __init__(self):
+        self.font = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
+        self.color = (0,0,255)
+        self.score = 0
+        self.img = self.font.render(f"スコア：{self.score}" ,0, self.color)
+        self.rct = self.img.get_rect()
+        self.rct.center = 100,850
+
+    def update(self, screen):
+        self.img = self.font.render(f"スコア：{self.score}", 0, self.color)
+        screen.blit(self.img,self.rct)
+ 
 class Bomb:
     """
     爆弾に関するクラス
     """
     colors = [(255,0,0),(0,255,0),(0,0,255)]
 
-    def __init__(self ):
+    def __init__(self):
         """
         引数に基づき爆弾円Surfaceを生成する
         """
@@ -136,6 +150,7 @@ def main():
     bird = Bird(3, (900, 400))
     bombs = [Bomb() for i in range(NUM_OF_BOBMS)]
     beam = None
+    score = Score()
 
     clock = pg.time.Clock()
     tmr = 0
@@ -161,6 +176,8 @@ def main():
                     beam = None
                     bombs[i] = None
                     bird.change_img(6, screen)
+                    score.score += 1
+
         bombs = [bomb for bomb in bombs if bomb is not None ]
 
         key_lst = pg.key.get_pressed()
@@ -169,7 +186,9 @@ def main():
             bomb.update(screen)
         if beam is not None:
             beam.update(screen)
+        score.update(screen)
         pg.display.update()
+
         tmr += 1
         clock.tick(50)
 if __name__ == "__main__":
