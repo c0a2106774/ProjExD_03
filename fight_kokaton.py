@@ -127,6 +127,7 @@ class Beam:
                 pg.image.load(f"{MAIN_DIR}/fig/beam.png")  
                 self.rct = self.img.get_rect()
                 self.rct.center = bird.rct.center #こうかとんの中心座標を取得
+
                 self.vx, self.vy = +5, 0
         
         def update(self, screen: pg.Surface):
