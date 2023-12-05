@@ -19,6 +19,8 @@ def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
     if obj_rct.top < 0 or HEIGHT < obj_rct.bottom:
         tate = False
     return yoko, tate
+
+
 class Bird:
     """
     ゲームキャラクター（こうかとん）に関するクラス
@@ -85,6 +87,7 @@ class Bird:
         screen.blit(self.img, self.rct)
 
 class Score:
+
     def __init__(self):
         self.font = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
         self.color = (0,0,255)
@@ -128,7 +131,9 @@ class Bomb:
         self.rct.move_ip(self.vx, self.vy)
         screen.blit(self.img, self.rct)
 
+
 class Beam:
+    beam_lst = []
     def __init__(self, bird: Bird):
         self.img = pg.image.load(f"{MAIN_DIR}/fig/beam.png")
         self.rct = self.img.get_rect()
@@ -143,6 +148,7 @@ class Beam:
         """
         self.rct.move_ip(self.vx, self.vy)
         screen.blit(self.img, self.rct)
+
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))    
@@ -173,7 +179,7 @@ def main():
 
         for i, bomb in  enumerate(bombs):
             if beam is not None and beam.rct.colliderect(bomb.rct):
-                    beam = None
+                    beam.beam_lst[i] = None
                     bombs[i] = None
                     bird.change_img(6, screen)
                     score.score += 1
